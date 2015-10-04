@@ -1,0 +1,12 @@
+/*
+    To do list for a demo of a FSM
+*/
+
+_X_ State.h
+_X_ StateMachine.h
+_X_ Cell.h
+_X_ Cell.cpp
+_X_ CellOwnedStates.h
+___ CellOwnedStates.cpp
+___ Main.cpp
+_X_ Makefile
