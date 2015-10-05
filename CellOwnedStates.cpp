@@ -21,16 +21,6 @@ CellGlobalState* CellGlobalState::Instance(){
 } 
 
 void CellGlobalState::Execute(Cell* c){
-    randNum = rand() % 8 + 1;
-    if(c->supplies < 1)
-        c->GetFSM()->ChangeState(ResupplyState::Instance());
-    //randomly choose between attack, drink tea, and intimidate
-    else if(randNum <= 3)
-        c->GetFSM()->ChangeState(AttackState::Instance());
-    else if(randNum <= 6)
-        c->GetFSM()->ChangeState(IntimidatePopulationState::Instance());
-    else 
-        c->GetFSM()->ChangeState(DrinkTeaState::Instance());
 }
 
 //---------------------------------Attack-------------------------------------//
@@ -51,6 +41,10 @@ void AttackState::Execute(Cell* c){
         std::cout << c->getName() << ": BANG BANG! Eat lead!" << std::endl;
 
     c->supplies -= 1;
+    if(c->supplies < 1)
+        c->GetFSM()->ChangeState(ResupplyState::Instance());
+    else 
+        c->GetFSM()->ChangeState(DrinkTeaState::Instance());
 }
 
 void AttackState::Exit(Cell* c){
@@ -70,12 +64,12 @@ void ResupplyState::Enter(Cell* c){
 void ResupplyState::Execute(Cell* c){
     std::cout <<  c->getName() << ": Loading up on supplies from my smuggler buddies" << std::endl;
     c->supplies = 3;
+    c->GetFSM()->ChangeState(DrinkTeaState::Instance());
 }
 
 void ResupplyState::Exit(Cell* c){
     std::cout <<  c->getName() << ": Locked, cocked, and ready to rock!" << std::endl;
 }
-
 
 //--------------------------IntimidatePopulation------------------------------//
 IntimidatePopulationState* IntimidatePopulationState::Instance(){
@@ -89,6 +83,7 @@ void IntimidatePopulationState::Enter(Cell* c){
 
 void IntimidatePopulationState::Execute(Cell* c){
     std::cout <<  c->getName() << ": Gimmie all your money, or else..." << std::endl;
+    c->GetFSM()->ChangeState(DrinkTeaState::Instance());
 }
 
 void IntimidatePopulationState::Exit(Cell* c){
@@ -108,6 +103,11 @@ void DrinkTeaState::Enter(Cell* c){
 void DrinkTeaState::Execute(Cell* c){
     std::cout <<  c->getName() << ": Ah tea... Wait, I didn't mix the green" << 
         "tea with the black, did I?" << std::endl;
+    randNum = rand() % 8 + 1;
+    if(randNum <= 3)
+        c->GetFSM()->ChangeState(AttackState::Instance());
+    else if(randNum > 6)
+        c->GetFSM()->ChangeState(IntimidatePopulationState::Instance());
 }
 
 void DrinkTeaState::Exit(Cell* c){

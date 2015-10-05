@@ -15,8 +15,7 @@ class Cell;
 //----------------------Global State-------------------------//
 class CellGlobalState:public State<Cell>{
     private:
-        int randNum;
-        CellGlobalState(){srand(time(NULL));}   
+        CellGlobalState(){}   
         ~CellGlobalState(){}   
         //copy ctor and assignment should be private
         CellGlobalState(const CellGlobalState&);
@@ -83,7 +82,8 @@ class ResupplyState: public State<Cell>{
 //-----------------------Drink Tea-------------------------//
 class DrinkTeaState: public State<Cell>{
     private:
-        DrinkTeaState(){}
+        int randNum;
+        DrinkTeaState(){srand(time(NULL));}
         //copy ctor and assignment should be private
         DrinkTeaState(const DrinkTeaState&);
         DrinkTeaState& operator=(const DrinkTeaState&);
