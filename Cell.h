@@ -10,6 +10,7 @@
 #include <string>
 #include "State.h"
 #include "StateMachine.h"
+#include <iostream>
 //#include "CellOwnedStates.h"
 
 //#include <vector>
@@ -20,7 +21,6 @@ class Cell {
     private:
         std::string name;
         StateMachine<Cell>* stateMachine;
-
         /*
         int ID;
         int members;
@@ -33,11 +33,13 @@ class Cell {
         */
 
     public:
+        int supplies;
+        
         Cell(std::string);
         
         void Update();
         StateMachine<Cell>* GetFSM()const {return stateMachine;}
-        
+        std::string getName() {return name;}       
         ~Cell() {delete stateMachine;}
 
 

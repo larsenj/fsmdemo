@@ -7,13 +7,16 @@
 #define CELLOWNEDSTATES_H
 
 #include "State.h"
+#include <cstdlib>
+#include <ctime>
 
 class Cell;
 
 //----------------------Global State-------------------------//
 class CellGlobalState:public State<Cell>{
     private:
-        CellGlobalState(){}   
+        int randNum;
+        CellGlobalState(){srand(time(NULL));}   
         ~CellGlobalState(){}   
         //copy ctor and assignment should be private
         CellGlobalState(const CellGlobalState&);
@@ -31,11 +34,12 @@ class CellGlobalState:public State<Cell>{
 //------------------------Attack-------------------------//
 class AttackState: public State<Cell>{
     private:
-        AttackState(){}
+        int randNum;
+        AttackState(){srand(time(NULL));}
         //copy ctor and assignment should be private
         AttackState(const AttackState&);
         AttackState& operator=(const AttackState&);
-                 
+
     public:
         static AttackState* Instance();
         void Enter(Cell*);

@@ -7,6 +7,9 @@
 #include "CellOwnedStates.h"
 #include "Cell.h"
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <string>
 
 //----------------------------CellGlobalState---------------------------------//
 //CellGlobalState::CellGlobalState(){}
@@ -18,8 +21,16 @@ CellGlobalState* CellGlobalState::Instance(){
 } 
 
 void CellGlobalState::Execute(Cell* c){
-    std::cout << "Global State" << std::endl;
-    //c->GetFSM()->ChangeState(XXXXX::Instance());
+    randNum = rand() % 8 + 1;
+    if(c->supplies < 1)
+        c->GetFSM()->ChangeState(ResupplyState::Instance());
+    //randomly choose between attack, drink tea, and intimidate
+    else if(randNum <= 3)
+        c->GetFSM()->ChangeState(AttackState::Instance());
+    else if(randNum <= 6)
+        c->GetFSM()->ChangeState(IntimidatePopulationState::Instance());
+    else 
+        c->GetFSM()->ChangeState(DrinkTeaState::Instance());
 }
 
 //---------------------------------Attack-------------------------------------//
@@ -29,15 +40,21 @@ AttackState* AttackState::Instance(){
 } 
 
 void AttackState::Enter(Cell* c){
-    std::cout << "Going to attack my enemies!" << std::endl;
+    std::cout << c->getName() << ": Going to attack my enemies!" << std::endl;
 }
 
 void AttackState::Execute(Cell* c){
+    randNum = rand() % 9 + 1;
+    if(randNum <= 5)
+        std::cout << c->getName() << ": BOOM goes the bomb!" << std::endl;
+    else
+        std::cout << c->getName() << ": BANG BANG! Eat lead!" << std::endl;
 
+    c->supplies -= 1;
 }
 
 void AttackState::Exit(Cell* c){
-    std::cout << "Another blow for the insurgency!" << std::endl;
+    std::cout <<  c->getName() << ": Another blow for the insurgency!" << std::endl;
 }
 
 //--------------------------------Resupply------------------------------------//
@@ -47,15 +64,16 @@ ResupplyState* ResupplyState::Instance(){
 } 
 
 void ResupplyState::Enter(Cell* c){
-    std::cout << "Out of bullets :(" << std::endl;
+    std::cout <<  c->getName() << ": Out of bullets :(" << std::endl;
 }
 
 void ResupplyState::Execute(Cell* c){
-
+    std::cout <<  c->getName() << ": Loading up on supplies from my smuggler buddies" << std::endl;
+    c->supplies = 3;
 }
 
 void ResupplyState::Exit(Cell* c){
-    std::cout << "Locked, cocked, and ready to rock!" << std::endl;
+    std::cout <<  c->getName() << ": Locked, cocked, and ready to rock!" << std::endl;
 }
 
 
@@ -66,15 +84,15 @@ IntimidatePopulationState* IntimidatePopulationState::Instance(){
 } 
 
 void IntimidatePopulationState::Enter(Cell* c){
-    std::cout << "Time to show the unwashed masses who's boss." << std::endl;
+    std::cout <<  c->getName() << ": Time to show the unwashed masses who's boss." << std::endl;
 }
 
 void IntimidatePopulationState::Execute(Cell* c){
-
+    std::cout <<  c->getName() << ": Gimmie all your money, or else..." << std::endl;
 }
 
 void IntimidatePopulationState::Exit(Cell* c){
-    std::cout << "That'll learn 'em." << std::endl;
+    std::cout <<  c->getName() << ": That'll learn 'em." << std::endl;
 }
 
 //--------------------------------DrinkTea------------------------------------//
@@ -84,12 +102,12 @@ DrinkTeaState* DrinkTeaState::Instance(){
 } 
 
 void DrinkTeaState::Enter(Cell* c){
-    std::cout << "Being an insurgent is thirsty work." << std::endl;
+    std::cout <<  c->getName() << ": Being an insurgent is thirsty work." << std::endl;
 }
 
 void DrinkTeaState::Execute(Cell* c){
-    std::cout << "Ah tea... Wait, I didn't mix the green tea with the black,"
-       <<" did I?" << std::endl;
+    std::cout <<  c->getName() << ": Ah tea... Wait, I didn't mix the green" << 
+        "tea with the black, did I?" << std::endl;
 }
 
 void DrinkTeaState::Exit(Cell* c){

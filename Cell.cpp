@@ -13,14 +13,16 @@
 #include <string>
 
 Cell::Cell(std::string s):name(s){
+    supplies = 2;
     stateMachine = new StateMachine<Cell>(this);
     std::cout << "Created cell " << name << std::endl;
     stateMachine->SetGlobalState(CellGlobalState::Instance());
+    stateMachine->SetCurrentState(DrinkTeaState::Instance());
 }
 
 
 void Cell::Update(){
-    std::cout << "in update\n";
+//    std::cout << "in update\n";
     stateMachine->Update();
 }
 
