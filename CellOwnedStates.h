@@ -13,6 +13,7 @@
 class Cell;
 
 //----------------------Global State-------------------------//
+//currently does nothing, but here for future-proofing purposes
 class CellGlobalState:public State<Cell>{
     private:
         CellGlobalState(){}   
@@ -31,6 +32,7 @@ class CellGlobalState:public State<Cell>{
 };
 
 //------------------------Attack-------------------------//
+//Cell conducts an attack on security forces
 class AttackState: public State<Cell>{
     private:
         int randNum;
@@ -48,6 +50,7 @@ class AttackState: public State<Cell>{
 
 
 //-----------------Intimidate Population-------------------//
+//Cell extorts money from the populace
 class IntimidatePopulationState: public State<Cell>{
     private:
         IntimidatePopulationState(){}
@@ -64,6 +67,7 @@ class IntimidatePopulationState: public State<Cell>{
 
 
 //------------------------Resupply-------------------------//
+//Cell increases its supplies back to 2 when it runs out
 class ResupplyState: public State<Cell>{
     private:
         ResupplyState(){}
@@ -80,6 +84,7 @@ class ResupplyState: public State<Cell>{
 
 
 //-----------------------Drink Tea-------------------------//
+//Cell sits around drinking tea
 class DrinkTeaState: public State<Cell>{
     private:
         int randNum;

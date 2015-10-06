@@ -1,3 +1,9 @@
+/*
+ * File: State.h
+ * Description: Base state that a specific object's states will inherit from
+ *
+ */
+
 #ifndef STATE_H
 #define STATE_H
 

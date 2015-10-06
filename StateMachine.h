@@ -1,8 +1,13 @@
+/*
+ * File: StateMachine.h
+ * Description: State Machine that controls owned states
+ *
+ */
+
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
 
 #include "State.h"
-#include <iostream>
 
 template <class T>
 class StateMachine {
@@ -16,7 +21,7 @@ class StateMachine {
     public:
         StateMachine(T* owner): 
             smOwner(owner), currentState(nullptr), previousState(nullptr), 
-            globalState(nullptr){std::cout << "StateMachine created" << std::endl;}
+            globalState(nullptr){}
 
         //call to update the FSM
         inline void Update()const{
@@ -44,14 +49,12 @@ class StateMachine {
         inline void SetCurrentState(State<T>* s){currentState = s;}
         inline void SetPreviousState(State<T>* s){previousState = s;}
         inline void SetGlobalState(State<T>* s){globalState = s;}
-
         inline State<T>* GetCurrentState() const {return currentState;}
         inline State<T>* GetPreviousState() const {return previousState;}
         inline State<T>* GetGlobalState() const {return globalState;}
 
         //check if current state same as that passed as param
         inline bool IsIn(const State<T>& st)const;
-
 };//end class
 
 #endif

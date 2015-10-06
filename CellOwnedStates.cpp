@@ -12,9 +12,6 @@
 #include <string>
 
 //----------------------------CellGlobalState---------------------------------//
-//CellGlobalState::CellGlobalState(){}
-//CellGlobalState::~CellGlobalState(){}
-
 CellGlobalState* CellGlobalState::Instance(){
     static CellGlobalState instance;
     return &instance;
@@ -40,7 +37,8 @@ void AttackState::Execute(Cell* c){
     else
         std::cout << c->getName() << ": BANG BANG! Eat lead!" << std::endl;
 
-    c->supplies -= 1;
+    c->supplies -= 1;//this action decrements supplies by 1
+    //if out of supplies, go into resupply state
     if(c->supplies < 1)
         c->GetFSM()->ChangeState(ResupplyState::Instance());
     else 
@@ -102,8 +100,10 @@ void DrinkTeaState::Enter(Cell* c){
 
 void DrinkTeaState::Execute(Cell* c){
     std::cout <<  c->getName() << ": Ah tea... Wait, I didn't mix the green" << 
-        "tea with the black, did I?" << std::endl;
+        " tea with the black, did I?" << std::endl;
     randNum = rand() % 8 + 1;
+    //1/3 chance of changing to an attack state, 1/3 of changint to intimidate
+    //population state, and 1/3 chance of staying in the drink tea state
     if(randNum <= 3)
         c->GetFSM()->ChangeState(AttackState::Instance());
     else if(randNum > 6)
@@ -111,5 +111,4 @@ void DrinkTeaState::Execute(Cell* c){
 }
 
 void DrinkTeaState::Exit(Cell* c){
-
 }
